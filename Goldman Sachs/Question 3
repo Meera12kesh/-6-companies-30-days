@@ -1,39 +1,37 @@
-package hello;
-import java.util.Arrays;
+#include <bits/stdc++.h>
 
-import java.util.Scanner;
- 
+using namespace std;
 
- 
-class subarrays{
- 
-    public static void main(String[] args)
- 
-    {
-    	int prod = 1, ans = 0, left = 0;
-               
-        Scanner scanner = new Scanner(System.in);
- 
- 
-        System.out.println ("Enter the no. of String : ");
-         int n = scanner.nextInt();
-        System.out.println ("Enter the value of k: ");
-        int k=scanner.nextInt();
-        String arr[] = new String[n];
-        for(int i=0;i<n;i++) {
-   
-        System.out.println ("Enter the String : ");
-         arr[i] = scanner.nextLine();
+int countSubArrayProductLessThanK(vector<int>& a, int n, long long k) {
+         int i=0,j=0,ans=0;
+        long long prod = 1;
+        while(j < n){
+            prod *= a[j];
+            if(prod >= k){
+                while(i <= j and prod >= k){
+                    prod /= a[i];
+                    i++;
+                }
+            }
+            ans += j-i+1;
+            j++;
         }
-     
-        for (int right = 0; right < arr.length; right++) {
-            prod *=arr[right];
-            while (prod >= k) prod /= arr[left++];
-            ans += right - left + 1;
-        }
-        
-        System.out.println(ans);
+        return ans;
     }
 
-       
+int main(){
+    int n,i;
+    cin>>n;
+    long long k;
+    cin>>k;
+
+    vector<int>arr(n);
+    for(i=0 ; i<n ; i++)
+        cin>>arr[i];
+    
+    int result = countSubArrayProductLessThanK(arr , n , k);
+
+    cout<<result<<endl;
+
+    return 0;
 }
