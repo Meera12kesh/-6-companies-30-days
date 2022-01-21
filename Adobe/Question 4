@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+class Solution {
+public:
+    int tot,sum;
+    vector<int>num;
+    bool partition(int ind){
+        int acsz=num.size();
+        if(sum==(tot-sum)){
+            return true;
+        }
+        if(sum>(tot-sum)||ind>=acsz)return false;
+        for(int i=ind;i<acsz;i++){
+            if(sum+num[i]>tot/2)continue;
+            sum+=num[i];
+             bool flag=partition(i+1);
+            sum-=num[i];
+             if(flag)return true;
+        }
+        return false;
+    }
+    bool canPartition(vector<int>& nums) {
+         if(nums.size()==1)return false;
+        int mx=0;
+        for(int i:nums)
+        {
+             tot+=i;
+            if(mx<i)
+                mx=i;
+        }
+        sort(nums.begin(),nums.end(),greater<int>());
+        num=nums;
+         if(tot%2!=0 || mx>tot/2)
+            return false;
+        bool flag=partition(0);
+        if(flag)return true;
+        return false;
+    }
+};
+
+
+int main() {
+        cout<<"Enter the Length of vector"<<endl;
+        int n,z;
+        cin>>n;
+        z=n;
+        vector<int> nums ;
+        while(z--){
+            int tmp;
+            cin>>tmp;
+            nums.push_back(tmp);
+        }
+        bool ret = Solution().canPartition(nums);
+        if(ret)cout<<"Partition Possible"<<endl;
+        else cout<<"Partition Not Possible"<<endl;
+    return 0;
+}
